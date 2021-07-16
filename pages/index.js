@@ -30,7 +30,7 @@ function ProfileRelationsBox (propriedades) {
           ({propriedades.items.length})
         </h2>
           <ul>
-            {propriedades.items.map((itemAtual) => {
+            {propriedades.items.slice(0,6).map((itemAtual) => {
           return (
               <li key={itemAtual.id}>
               <a href={itemAtual.html_url} key={itemAtual.id}>
