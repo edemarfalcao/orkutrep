@@ -6,6 +6,7 @@ import { ProfileRelationsBoxWrapper } from '../src/components/profileRelationsAr
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet, } from '../src/lib/AlurakutCommons';
 
 
+
 function ProfileSidebdar(props) {
   return (
     <Box as="aside">
@@ -21,24 +22,40 @@ function ProfileSidebdar(props) {
     </Box>
   )
 }
+function ProfileRelationsBox (propriedades) {
+  return (
+    <ProfileRelationsBoxWrapper>
+        <h2 className="smallTitle"> 
+          {propriedades.title}
+          ({propriedades.items.length})
+        </h2>
+          <ul>
+          {/* {setSeguidores.slice(0,6).map((itemF)=>{
+              return (
+               <li key={itemF} >
+                  <a href={`https://github.com/${itemF}.png`} key={itemF.title}>
+                    <img src={itemF.image} /> 
+                    <span>{itemF.title}</span>
+                 </a>
+                </li>
+              
+              )
+            
+            })} */}
+          </ul>
+        </ProfileRelationsBoxWrapper>
+  )
+}
 
-function shuffleArray(arr) {
-  // Loop em todos os elementos
-for (let i = arr.length - 1; i > 0; i--) {
-      // Escolhendo elemento aleatório
-  const j = Math.floor(Math.random() * (i + 1));
-  // Reposicionando elemento
-  [arr[i], arr[j]] = [arr[j], arr[i]];
-}
-// Retornando array com aleatoriedade
-return arr;
-}
+
 
 export default function Home() {
   const [comunidades, setComunidades] = React.useState([{
     id:'88748156',
     title: 'V.A.S.P',
-    image: 'https://img10.orkut.br.com/community/18538602725e6b77a353bd40.62088362_03a7dd1e044e00c4b820e8de39448d68.jpg'
+    image: 'https://img10.orkut.br.com/community/18538602725e6b77a353bd40.62088362_03a7dd1e044e00c4b820e8de39448d68.jpg',
+    
+    
   }]);
   const gitUser = 'edemarfalcao';
   // const comunidades = ['Alurakut'];
@@ -50,7 +67,22 @@ export default function Home() {
     'omariosouto',
     't',
   ] 
-  pessoasFavoritas = shuffleArray(pessoasFavoritas)
+  pessoasFavoritas = (pessoasFavoritas)
+
+  const [seguidores, setSeguidores] = React.useState([]);
+
+  React.useEffect(function(){ 
+    fetch('https://api.github.com/users/edemarfalcao/following')
+    .then(function (response){
+      return response.json(); 
+    })
+    .then(function(fullResponse)  {
+      setSeguidores(fullResponse);
+    })
+    
+  }) 
+  
+  
 
   return (
     <>
@@ -102,6 +134,7 @@ export default function Home() {
         </Box>
       </div>
       <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>
+      
         <ProfileRelationsBoxWrapper>
         <h2 className="smallTitle">Comunidades({comunidades.length})</h2>
           <ul>
@@ -119,7 +152,7 @@ export default function Home() {
             })}
           </ul>
         </ProfileRelationsBoxWrapper>
-        
+        <ProfileRelationsBox title="Seguindo" items={seguidores} />
         <ProfileRelationsBoxWrapper>
           <h2 className="smallTitle">Pessoas da comunidade({pessoasFavoritas.length})</h2>
           <ul>

@@ -244,19 +244,19 @@ export function OrkutNostalgicIconSet(props) {
   return (
     <OrkutNostalgicIconSet.List>
       {[
-        { name: 'Recados', slug: 'recados', icon: 'book' },
-        { name: 'Fotos', slug: 'fotos', icon: 'camera' },
-        { name: 'Videos', slug: 'videos', icon: 'video-camera' },
-        { name: 'Fãs', slug: 'fas', icon: 'star' },
-        { name: 'Mensagens', slug: 'mensagens', icon: 'email' },
-      ].map(({ name, slug, icon }) => (
+        { name: 'Recados', slug: 'recados', icon: 'book', total: 32 },
+        { name: 'Fotos', slug: 'fotos', icon: 'camera', total: 51 },
+        { name: 'Videos', slug: 'videos', icon: 'video-camera', total: 3  },
+        { name: 'Fãs', slug: 'fas', icon: 'star', total: 25 },
+        { name: 'Mensagens', slug: 'mensagens', icon: 'email', total: 63 },
+      ].map(({ name, slug, icon, total }) => (
         <li key={`orkut__icon_set__${slug}`}>
           <span style={{ gridArea: 'title' }} className="OrkutNostalgicIconSet__title">
             {name}
           </span>
           <span className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
             <img key={`orkut__icon_set__${slug}_img`} className="OrkutNostalgicIconSet__iconSample" src={`https://alurakut.vercel.app/icons/${icon}.svg`} />
-            {props[slug] ? props[slug] : 85}
+            {props[slug] ? props[slug] : total}
           </span>
         </li>
       ))}
