@@ -30,19 +30,17 @@ function ProfileRelationsBox (propriedades) {
           ({propriedades.items.length})
         </h2>
           <ul>
-          {/* {setSeguidores.slice(0,6).map((itemF)=>{
-              return (
-               <li key={itemF} >
-                  <a href={`https://github.com/${itemF}.png`} key={itemF.title}>
-                    <img src={itemF.image} /> 
-                    <span>{itemF.title}</span>
-                 </a>
-                </li>
-              
-              )
-            
-            })} */}
-          </ul>
+            {propriedades.items.map((itemAtual) => {
+          return (
+              <li key={itemAtual.id}>
+              <a href={itemAtual.html_url} key={itemAtual.id}>
+                <img src={itemAtual.avatar_url} />
+                <span>{itemAtual.login}</span>
+              </a>
+            </li>
+          )
+        })}
+      </ul>
         </ProfileRelationsBoxWrapper>
   )
 }
