@@ -30,7 +30,7 @@ function ProfileRelationsBox (propriedades) {
           ({propriedades.items.length})
         </h2>
           <ul>
-            {propriedades.items.slice(0,6).map((itemAtual) => {
+            {propriedades.items.slice(0,3).map((itemAtual) => {
           return (
               <li key={itemAtual.id}>
               <a href={itemAtual.html_url} key={itemAtual.id}>
@@ -78,7 +78,31 @@ export default function Home() {
       setSeguidores(fullResponse);
     })
     
-  }) 
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'ea3ddd4c619869b46921ba8f2c68bc', 
+        'Content-Type' : 'application/json',
+        'Accept': 'application/json',
+
+      },
+      body: JSON.stringify({ "query": `query {
+        allCommunities {
+          id
+          title
+          imageUrl            
+        }
+      }` })
+    })
+    .then((response) => response.json()) //Pega o retorno o response.json
+    .then ((fullResponse) => {
+      const comunidadesDato = fullResponse.data.allCommunities;
+      setComunidades(comunidadesDato)
+    })
+    
+
+  }, []) 
+
   
   
 
@@ -102,13 +126,27 @@ export default function Home() {
             const dadosDoForm = new FormData(e.target);
 
             const comunidade = {
-              id: new Date().toISOString(),
               title: dadosDoForm.get('title'),
-              image: dadosDoForm.get('image'),
+              image_url: dadosDoForm.get('image'),
+              creator_slug: gitUser, 
             }
-            const comunidadesAtualizadas = [...comunidades, comunidade]
-            setComunidades(comunidadesAtualizadas );
-            console.log(comunidades);
+
+            fetch('/api/comunidades', {
+              method: 'POST', 
+              headers: {
+                'Content-Type' : 'application/json',
+              },
+              body: JSON.stringify(comunidade)
+            })
+            .then(async(response) => {
+              const dados = await response.json(); 
+              const comunidade = dados.registroCriado;
+              const comunidadesAtualizadas = [...comunidades, comunidade];
+              setComunidades(comunidadesAtualizadas)
+            })
+
+
+           
  
           }} >
                <div>
@@ -139,8 +177,8 @@ export default function Home() {
             {comunidades.slice(0,6).map((itemF)=>{
               return (
                <li key={itemF.id} >
-                  <a href={`/users/${itemF.title}`} key={itemF.title}>
-                    <img src={itemF.image} /> 
+                  <a href={`/users/${itemF.id}`} key={itemF.id}>
+                    <img src={itemF.imageUrl} /> 
                     <span>{itemF.title}</span>
                  </a>
                 </li>
@@ -154,7 +192,7 @@ export default function Home() {
         <ProfileRelationsBoxWrapper>
           <h2 className="smallTitle">Pessoas da comunidade({pessoasFavoritas.length})</h2>
           <ul>
-            {pessoasFavoritas.slice(0,6).map((itemF) =>{
+            {pessoasFavoritas.slice(0,3).map((itemF) =>{
             return (
               <li key={itemF}>
                 <a href={`/users/${itemF}`} key={itemF}>
