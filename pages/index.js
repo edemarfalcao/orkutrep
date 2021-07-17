@@ -1,7 +1,6 @@
-
 import React from 'react'; 
 import MainGrid from '../src/components/MainGrid'
-import Box from '../src/components/Box/'
+import Box from '../src/components/box/'
 import { ProfileRelationsBoxWrapper } from '../src/components/profileRelationsArea';
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet, } from '../src/lib/AlurakutCommons';
 
