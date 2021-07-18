@@ -48,10 +48,9 @@ function ProfileRelationsBox (propriedades) {
 
 export default function Home() {
   const [comunidades, setComunidades] = React.useState([{
-    id:'88748156',
-    title: 'V.A.S.P',
-    image: 'https://img10.orkut.br.com/community/18538602725e6b77a353bd40.62088362_03a7dd1e044e00c4b820e8de39448d68.jpg',
-    
+   
+  }]);
+  const [depoimentos, setDepoimentos] = React.useState([{
     
   }]);
   const gitUser = 'edemarfalcao';
@@ -98,6 +97,28 @@ export default function Home() {
       const comunidadesDato = fullResponse.data.allCommunities;
       setComunidades(comunidadesDato)
     })
+
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'ea3ddd4c619869b46921ba8f2c68bc', 
+        'Content-Type' : 'application/json',
+        'Accept': 'application/json',
+
+      },
+      body: JSON.stringify({ "query": `query {
+        allTestimonials {
+          id
+          message
+          creatorSlug           
+        }
+      }` })
+    })
+    .then((response) => response.json()) //Pega o retorno o response.json
+    .then ((fullResponse) => {
+      const depoimentosDato = fullResponse.data.allTestimonials;
+      setDepoimentos(depoimentosDato)
+    })
     
 
   }, []) 
@@ -119,7 +140,7 @@ export default function Home() {
         <OrkutNostalgicIconSet/>
         </Box>
         <Box>
-          <h2 className="subTitle">O que você deseja fazer?</h2>
+          <h2 className="subTitle">Criar uma comunidade</h2>
           <form onSubmit={function handleCriarComunidade(e){
             e.preventDefault();
             const dadosDoForm = new FormData(e.target);
@@ -167,6 +188,56 @@ export default function Home() {
             
             </form>
         </Box>
+        <Box>
+          <h2 className="subTitle">Depoimento:</h2>
+          <form onSubmit={function handleCriarDepoimento(e){
+            e.preventDefault();
+            const dadosDoFor = new FormData(e.target);
+
+            const depoimento = {
+              message: dadosDoFor.get('message'),
+              creator_slug: gitUser, 
+              user: dadosDoFor.get('user'),
+            }
+
+            fetch('/api/depoimentos', {
+              method: 'POST', 
+              headers: {
+                'Content-Type' : 'application/json',
+              },
+              body: JSON.stringify(depoimento)
+            })
+            .then(async(response) => {
+              const dados = await response.json(); 
+              const depoimento = dados.registro_criado;
+              const depoimentosAtualizados = [...depoimentos, depoimento];
+              setDepoimentos(depoimentosAtualizados)
+            })
+
+
+           
+ 
+          }} >
+               <div>
+                  <input  placeholder="Seu usuario do GitHub"
+                  name="user" 
+                  aria-label="Seu usuario do GitHub"
+                  />
+
+               </div>
+               <div>
+                  <input  placeholder="Deixe sua mensagem"
+                  name="message" 
+                  aria-label="Deixe sua mensagem"/>
+               </div>
+
+               <button>
+                 Publicar
+               </button>
+            
+            </form>
+        </Box>
+
       </div>
       <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>
       
