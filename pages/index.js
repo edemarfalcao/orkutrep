@@ -238,6 +238,24 @@ export default function Home() {
             </form>
         </Box>
 
+        <Box>
+        <h2 className="subTitle">Depoimentos({depoimentos.length})</h2>
+          <ul>
+            {depoimentos.slice(0,6).map((itemF)=>{
+              return (
+               <li key={itemF.id} >
+                  <a href={`/users/${itemF.id}`} key={itemF.id}>
+                    <img src={itemF.creator_slug} /> 
+                    <p>{itemF.message}</p>
+                    <p>{itemF.creatorSlug}</p>
+                 </a>
+                </li>
+              )
+            })}
+          </ul>
+
+        </Box>
+
       </div>
       <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>
       
