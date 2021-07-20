@@ -7,7 +7,7 @@ export default async function recebedorDeRequests (request, response) {
         const client = new SiteClient(TOKEN);
         
         const registro_criado = await client.items.create({
-            itemType: "973162", //ID do modelo de "Communities" criado pelo DatoCMS
+            itemType: "976593", //ID do modelo de "Communities" criado pelo DatoCMS
             ...request.body,
             
         })
