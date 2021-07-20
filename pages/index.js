@@ -247,7 +247,7 @@ export default function Home() {
                   <a href={`/users/${itemF.id}`} key={itemF.id}>
                     <img src={itemF.creator_slug} /> 
                     <p>{itemF.message}</p>
-                    <p>{itemF.user}</p>
+                    <p>{itemF.creatorSlug}</p>
                  </a>
                 </li>
               )
