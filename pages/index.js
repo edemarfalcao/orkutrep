@@ -1,6 +1,7 @@
 import React from 'react'; 
 import MainGrid from '../src/Components/MainGrid';
 import Box from '../src/Components/BoxItem';
+import Testimonials from '../src/Components/Testimonials';
 import { ProfileRelationsBoxWrapper } from '../src/Components/profileRelationsArea';
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet, } from '../src/lib/AlurakutCommons';
 
@@ -29,7 +30,7 @@ function ProfileRelationsBox (propriedades) {
           ({propriedades.items.length})
         </h2>
           <ul>
-            {propriedades.items.slice(0,3).map((itemAtual) => {
+            {propriedades.items.slice(0,6).map((itemAtual) => {
           return (
               <li key={itemAtual.id}>
               <a href={itemAtual.html_url} key={itemAtual.id}>
@@ -109,6 +110,7 @@ export default function Home() {
       body: JSON.stringify({ "query": `query {
         allTestimonials {
           id
+          user
           message
           creatorSlug           
         }
@@ -168,26 +170,27 @@ export default function Home() {
 
            
  
-          }} >
-               <div>
-                  <input  placeholder="Qual vai ser o nome da sua comunidade?"
-                  name="title" 
-                  aria-label="Qual vai ser o nome da sua comunidade?"
-                  />
+          }} > <div>
+                  <div>
+                      <input  placeholder="Qual vai ser o nome da sua comunidade?"
+                      name="title" 
+                      aria-label="Qual vai ser o nome da sua comunidade?"
+                      />
 
-               </div>
-               <div>
-                  <input  placeholder="Coloque uma URL para usar de capa"
-                  name="image" 
-                  aria-label="Coloque uma URL para usar de capa"/>
-               </div>
+                  </div>
+                  <div>
+                      <input  placeholder="Coloque uma URL para usar de capa"
+                      name="image" 
+                      aria-label="Coloque uma URL para usar de capa"/>
+                  </div>
 
-               <button>
-                 Criar comunidade
-               </button>
-            
+                  <button>
+                    Criar comunidade
+                  </button>
+              </div>
             </form>
         </Box>
+        
         <Box>
           <h2 className="subTitle">Depoimento:</h2>
           <form onSubmit={function handleCriarDepoimento(e){
@@ -237,24 +240,29 @@ export default function Home() {
             
             </form>
         </Box>
-
+      
+        <Testimonials>
         <Box>
-        <h2 className="subTitle">Depoimentos({depoimentos.length})</h2>
-          <ul>
+        
+         <h2 className="subTitle">Depoimentos({depoimentos.length})</h2>
+          <ul className="input">
             {depoimentos.slice(0,6).map((itemF)=>{
               return (
-               <li key={itemF.id} >
-                  <a href={`/users/${itemF.id}`} key={itemF.id}>
-                    <img src={itemF.creator_slug} /> 
-                    <p>{itemF.message}</p>
-                    <p>{itemF.creatorSlug}</p>
+               <li className="testi" key={itemF.id} >
+                  <a href={`https://github.com/${itemF.creatorSlug}`} key={itemF.id}>
+                   <div className="FlexC">
+                     <div> <img className="ic" src={`https://github.com/${itemF.creatorSlug}.png`} /> </div>
+                     <div> <p className="mes">"{itemF.message}"</p> </div>
+                    </div> 
+                    <p className="name">{itemF.creatorSlug}</p>
                  </a>
                 </li>
               )
             })}
           </ul>
-
+        
         </Box>
+        </Testimonials>
 
       </div>
       <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>
@@ -280,7 +288,7 @@ export default function Home() {
         <ProfileRelationsBoxWrapper>
           <h2 className="smallTitle">Pessoas da comunidade({pessoasFavoritas.length})</h2>
           <ul>
-            {pessoasFavoritas.slice(0,3).map((itemF) =>{
+            {pessoasFavoritas.slice(0,6).map((itemF) =>{
             return (
               <li key={itemF}>
                 <a href={`/users/${itemF}`} key={itemF}>
