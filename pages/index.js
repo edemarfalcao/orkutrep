@@ -1,4 +1,6 @@
 import React from 'react'; 
+import nookies from 'nookies'; 
+import jwt from 'jsonwebtoken';
 import MainGrid from '../src/Components/MainGrid';
 import Box from '../src/Components/BoxItem';
 import Testimonials from '../src/Components/Testimonials';
@@ -10,11 +12,12 @@ import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet,
 function ProfileSidebdar(props) {
   return (
     <Box as="aside">
-    <img src= {`https://github.com/${props.githubUser}.png`} style={{borderRadius: '8px'}}/>
+    <img src= {`https://github.com/edemarfalcao.png`} style={{borderRadius: '8px'}}/>
     <hr/> 
     <p>
-    <a className ="boxLink" href={`https://github.com/${props.githubUser}`}>
+    <a className ="boxLink" href={`https://github.com/edemarfalcao`}>
       @{props.githubUser}
+      edemarfalcao
     </a>
     </p>
     <hr/> 
@@ -47,14 +50,14 @@ function ProfileRelationsBox (propriedades) {
 
 
 
-export default function Home() {
+export default function Home(props) {
   const [comunidades, setComunidades] = React.useState([{
    
   }]);
   const [depoimentos, setDepoimentos] = React.useState([{
     
   }]);
-  const gitUser = 'edemarfalcao';
+  const gitUser = props.githubUser;
   // const comunidades = ['Alurakut'];
   let pessoasFavoritas = [
     'telito',
@@ -310,3 +313,6 @@ export default function Home() {
     </>
   )
 }
+
+
+  
